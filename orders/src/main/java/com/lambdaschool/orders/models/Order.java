@@ -3,50 +3,45 @@ package com.lambdaschool.orders.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "orders")
 public class Order
 {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long ordnum;
+	private long ordernum;
 
 	private double ordamount;
-
-	private double advanceamount;
+	private double advanceamt;
+	private String orddescription;
 
 	@ManyToOne
 	@JoinColumn(name = "custcode",
 			nullable = false)
-	@JsonIgnoreProperties("orderss")
+	@JsonIgnoreProperties("orders")
 	private Customer customer;
-
-	private String orddescription;
 
 	public Order()
 	{
 	}
 
-	public Order(double ordamount, double advanceamount, Customer customer, String orddescription)
+	public Order(double ordamount, double advanceamt,Customer customer, String orddescription)
 	{
 		this.ordamount = ordamount;
-		this.advanceamount = advanceamount;
-		this.customer = customer;
+		this.advanceamt = advanceamt;
 		this.orddescription = orddescription;
+		this.customer = customer;
 	}
 
-	public long getOrdnum()
+	public long getOrdernum()
 	{
-		return ordnum;
+		return ordernum;
 	}
 
-	public void setOrdnum(long ordnum)
+	public void setOrdernum(long ordernum)
 	{
-		this.ordnum = ordnum;
+		this.ordernum = ordernum;
 	}
 
 	public double getOrdamount()
@@ -59,24 +54,14 @@ public class Order
 		this.ordamount = ordamount;
 	}
 
-	public double getAdvanceamount()
+	public double getAdvanceamt()
 	{
-		return advanceamount;
+		return advanceamt;
 	}
 
-	public void setAdvanceamount(double advanceamount)
+	public void setAdvanceamt(double advanceamt)
 	{
-		this.advanceamount = advanceamount;
-	}
-
-	public Customer getCustomer()
-	{
-		return customer;
-	}
-
-	public void setCustomer(Customer customer)
-	{
-		this.customer = customer;
+		this.advanceamt = advanceamt;
 	}
 
 	public String getOrddescription()
@@ -87,5 +72,15 @@ public class Order
 	public void setOrddescription(String orddescription)
 	{
 		this.orddescription = orddescription;
+	}
+
+	public Customer getCustomer()
+	{
+		return customer;
+	}
+
+	public void setCustomer(Customer customer)
+	{
+		this.customer = customer;
 	}
 }

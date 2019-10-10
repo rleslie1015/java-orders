@@ -14,17 +14,18 @@ public class Agent
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long agentcode;
 
+	@Column(unique = true,
+			nullable = false)
 	private String agentname;
+
 	private String workingarea;
 	private double commission;
 	private String phone;
 	private String country;
 
-	@OneToMany(mappedBy = "agents",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true)
-	@JsonIgnoreProperties("agents")
-	private List<Order> customers = new ArrayList<>();
+	@OneToMany(mappedBy = "agent",
+			cascade = CascadeType.ALL)
+	private List<Customer> customers = new ArrayList<>();
 
 	public Agent()
 	{
@@ -99,12 +100,12 @@ public class Agent
 		this.country = country;
 	}
 
-	public List<Order> getCustomers()
+	public List<Customer> getCustomers()
 	{
 		return customers;
 	}
 
-	public void setCustomers(List<Order> customers)
+	public void setCustomers(List<Customer> customers)
 	{
 		this.customers = customers;
 	}

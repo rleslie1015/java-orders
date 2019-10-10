@@ -7,23 +7,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "cutomers")
+@Table(name = "customers")
 public class Customer
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long CustCode;
+	private long custcode;
 
 	@Column(nullable = false)
 	private String custname;
 
-	private String city;
+	private String custcity;
 	private String workingarea;
+	private String custcountry;
 	private String grade;
 	private double openingamt;
 	private double receiveamt;
+	private double paymentamt;
 	private double outstandingamt;
 	private String phone;
+
+	@OneToMany(mappedBy = "customer",
+			cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("customers")
+	private List<Order> orders = new ArrayList<>();
+
 
 	@ManyToOne
 	@JoinColumn(name = "agentcode",
@@ -31,42 +39,43 @@ public class Customer
 	@JsonIgnoreProperties("customers")
 	private Agent agent;
 
-	//one to many relationship
-	//one to many Menus
-	//mapped to a field
-	// cascade - if we delete a restaurant all the menus will be deleted
-	//orphan removal - if we find a menu that is not tied to a restaurant it will get deleted
-	@OneToMany(mappedBy = "customers",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true)
-	@JsonIgnoreProperties("customers")
-	private List<Order> orders = new ArrayList<>();
-
 	public Customer()
 	{
 	}
 
-	public Customer(String custname, String city, String workingarea, String grade, double openingamt, double receiveamt, double outstandingamt, String phone, Agent agent)
+	public Customer(String custname, String custcity, String workingarea, String custcountry, String grade, double openingamt, double receiveamt, double paymentamt, double outstandingamt, String phone, Agent agent)
 	{
 		this.custname = custname;
-		this.city = city;
+		this.custcity = custcity;
 		this.workingarea = workingarea;
+		this.custcountry = custcountry;
 		this.grade = grade;
 		this.openingamt = openingamt;
 		this.receiveamt = receiveamt;
+		this.paymentamt = paymentamt;
 		this.outstandingamt = outstandingamt;
 		this.phone = phone;
 		this.agent = agent;
 	}
 
-	public long getCustCode()
+	public List<Order> getOrders()
 	{
-		return CustCode;
+		return orders;
 	}
 
-	public void setCustCode(long custCode)
+	public void setOrders(List<Order> orders)
 	{
-		CustCode = custCode;
+		this.orders = orders;
+	}
+
+	public long getCustcode()
+	{
+		return custcode;
+	}
+
+	public void setCustcode(long custcode)
+	{
+		this.custcode = custcode;
 	}
 
 	public String getCustname()
@@ -79,14 +88,14 @@ public class Customer
 		this.custname = custname;
 	}
 
-	public String getCity()
+	public String getCustcity()
 	{
-		return city;
+		return custcity;
 	}
 
-	public void setCity(String city)
+	public void setCustcity(String custcity)
 	{
-		this.city = city;
+		this.custcity = custcity;
 	}
 
 	public String getWorkingarea()
@@ -97,6 +106,16 @@ public class Customer
 	public void setWorkingarea(String workingarea)
 	{
 		this.workingarea = workingarea;
+	}
+
+	public String getCustcountry()
+	{
+		return custcountry;
+	}
+
+	public void setCustcountry(String custcountry)
+	{
+		this.custcountry = custcountry;
 	}
 
 	public String getGrade()
@@ -129,6 +148,16 @@ public class Customer
 		this.receiveamt = receiveamt;
 	}
 
+	public double getPaymentamt()
+	{
+		return paymentamt;
+	}
+
+	public void setPaymentamt(double paymentamt)
+	{
+		this.paymentamt = paymentamt;
+	}
+
 	public double getOutstandingamt()
 	{
 		return outstandingamt;
@@ -157,15 +186,5 @@ public class Customer
 	public void setAgent(Agent agent)
 	{
 		this.agent = agent;
-	}
-
-	public List<Order> getOrders()
-	{
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders)
-	{
-		this.orders = orders;
 	}
 }
